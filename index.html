@@ -9,46 +9,108 @@
 <body>
 
     <div id="app">
+
+        <!-- The player and monster health bars -->
       <section class="row">
         <div class="small-6 columns">
             <h1 class="text-center">YOU</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;">
-
+                <div class="healthbar text-center" 
+                     style="background-color: green; margin: 0; color: white;"
+                     :style="{width: playerHealth + '%'}">
+                        {{ playerHealth }}
                 </div>
             </div>
         </div>
         <div class="small-6 columns">
             <h1 class="text-center">MONSTER</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;">
-
+                <div class="healthbar text-center" 
+                     style="background-color: green; margin: 0; color: white;"
+                     :style="{width: monsterHealth + '%'}">
+                        {{ monsterHealth}}
                 </div>
             </div>
         </div>
     </section>
-    <section class="row controls">
+
+    <!-- The start button will only show up when the game isn't running -->
+    <section class="row controls" v-if="!gameIsRunning">
         <div class="small-12 columns">
-            <button id="start-game">START NEW GAME</button>
+            <button id="start-game" @click="StartGame">START NEW GAME</button>
         </div>
     </section>
-    <section class="row controls">
+    <!-- The buttons will only show up if the game is running -->
+    <section class="row controls" v-else>
         <div class="small-12 columns">
-            <button id="attack">ATTACK</button>
-            <button id="special-attack">SPECIAL ATTACK</button>
-            <button id="heal">HEAL</button>
-            <button id="give-up">GIVE UP</button>
+            <button id="attack" @click="Attack">ATTACK</button>
+            <button id="special-attack" @click="SpecialAttack">SPECIAL ATTACK</button>
+            <button id="heal" @click="Heal">HEAL</button>
+            <button id="give-up" @click="">GIVE UP</button>
         </div>
     </section>
-    <section class="row log">
+
+    <!-- The status message for the player actions only show up
+    if the game is running -->
+    <section class="row log" v-if="gameIsRunning">
         <div class="small-12 columns">
             <ul>
                 <li>
-
+                    {{ atkStatusMsg }}
                 </li>
             </ul>
         </div>
     </section>
+    <!-- The status message for the monster actions will only show up when the game is running -->
+    <section class="row log" v-if="gameIsRunning">
+        <div class="small-12 columns">
+            <ul>
+                <li>
+                    {{ monsterStatusMsg }}        
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Shows up if the player has defeated the monster they have won the game -->
+    <template v-if="gameWon = true">
+        <section class="row log">
+            <div class="small-12 columns">
+                <ul>
+                    <li>
+                      <h1> {{ gameStatus }} </h1>  
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </template>
+
+<!-- Shows up if the player has lost all their health they have lost the game -->
+    <template v-if="gameLost = true">
+        <section class="row log">
+            <div class="small-12 columns">
+                <ul>
+                    <li>
+                   <h1>{{ gameStatus }}</h1> 
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </template>
+
+    <!-- Shows up if the player has given up -->
+    <template v-if="gaveUp == true">
+        <section class="row log">
+            <div class="small-12 columns">
+                <ul>
+                    <li>
+                      <h1>{{ gameStatus }}</h1> 
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </template>
+
    </div>
 
 

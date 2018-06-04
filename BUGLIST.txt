@@ -1,0 +1,5 @@
+Current Bug List: 
+
+
+Sometimes the player or Monster status doesn't appear 
+When monster hits player doesn't subtract monsterdamage to player health but sets it to NaN
